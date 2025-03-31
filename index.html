@@ -74,6 +74,11 @@
         .social-icons a:hover {
             color: #005a8c;
         }
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -117,6 +122,12 @@
             <label for="experience">Work Experience:</label>
             <textarea id="experience" required></textarea>
 
+            <label for="projects">Projects:</label>
+            <textarea id="projects" required></textarea>
+            
+            <label for="projectDuration">Project Duration:</label>
+            <input type="text" id="projectDuration">
+            
             <label for="education">Education:</label>
             <textarea id="education" required></textarea>
 
@@ -140,6 +151,8 @@
             const summary = document.getElementById('summary').value;
             const skills = document.getElementById('skills').value;
             const experience = document.getElementById('experience').value;
+            const projects = document.getElementById('projects').value;
+            const projectDuration = document.getElementById('projectDuration').value;
             const education = document.getElementById('education').value;
 
             document.getElementById('resumeOutput').innerHTML = `
@@ -160,6 +173,9 @@
                 <div class="section-divider"></div>
                 <h3>Work Experience</h3>
                 <p>${experience}</p>
+                <div class="section-divider"></div>
+                <h3>Projects</h3>
+                <div class="project-header"><strong>${projects}</strong> <span>${projectDuration}</span></div>
                 <div class="section-divider"></div>
                 <h3>Education</h3>
                 <p>${education}</p>
