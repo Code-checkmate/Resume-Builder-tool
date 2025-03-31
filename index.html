@@ -6,6 +6,7 @@
     <title>ATS Resume Builder</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,13 +65,14 @@
             border-top: 1px solid #ccc;
             margin: 10px 0;
         }
-        #downloadPDF {
-            display: block;
-            margin: 20px auto;
-            background: #28a745;
+        .social-icons a {
+            margin-right: 10px;
+            font-size: 24px;
+            color: #0073b1;
+            text-decoration: none;
         }
-        #downloadPDF:hover {
-            background: #218838;
+        .social-icons a:hover {
+            color: #005a8c;
         }
     </style>
 </head>
@@ -93,6 +95,9 @@
 
             <label for="github">GitHub Profile:</label>
             <input type="text" id="github">
+
+            <label for="portfolio">Portfolio Website:</label>
+            <input type="text" id="portfolio">
 
             <label for="birthplace">Place of Birth:</label>
             <input type="text" id="birthplace">
@@ -125,10 +130,10 @@
     <script>
         document.getElementById('resumeForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const template = document.getElementById('template').value;
             const fullName = document.getElementById('fullName').value;
             const linkedin = document.getElementById('linkedin').value;
             const github = document.getElementById('github').value;
+            const portfolio = document.getElementById('portfolio').value;
             const birthplace = document.getElementById('birthplace').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
@@ -137,38 +142,28 @@
             const experience = document.getElementById('experience').value;
             const education = document.getElementById('education').value;
 
-            let templateHTML = '';
-            if (template === 'template1') {
-                templateHTML = `
-                    <h2>${fullName}</h2>
-                    <p><strong>LinkedIn:</strong> ${linkedin}</p>
-                    <p><strong>GitHub:</strong> ${github}</p>
-                    <p><strong>Place of Birth:</strong> ${birthplace}</p>
-                    <p><strong>Email:</strong> ${email}</p>
-                    <p><strong>Phone:</strong> ${phone}</p>
-                    <div class="section-divider"></div>
-                    <h3>Professional Summary</h3>
-                    <p>${summary}</p>
-                    <div class="section-divider"></div>
-                    <h3>Skills</h3>
-                    <p>${skills}</p>
-                    <div class="section-divider"></div>
-                    <h3>Work Experience</h3>
-                    <p>${experience}</p>
-                    <div class="section-divider"></div>
-                    <h3>Education</h3>
-                    <p>${education}</p>
-                `;
-            }
-
-            document.getElementById('resumeOutput').innerHTML = templateHTML;
-        });
-
-        document.getElementById('downloadPDF').addEventListener('click', function() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.text(document.getElementById('resumeOutput').innerText, 10, 10);
-            doc.save('resume.pdf');
+            document.getElementById('resumeOutput').innerHTML = `
+                <h2>${fullName}</h2>
+                <div class="social-icons">
+                    ${linkedin ? `<a href="${linkedin}" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>` : ''}
+                    ${github ? `<a href="${github}" target="_blank"><i class="fab fa-github"></i> GitHub</a>` : ''}
+                    ${portfolio ? `<a href="${portfolio}" target="_blank"><i class="fas fa-globe"></i> Portfolio</a>` : ''}
+                </div>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                <div class="section-divider"></div>
+                <h3>Professional Summary</h3>
+                <p>${summary}</p>
+                <div class="section-divider"></div>
+                <h3>Skills</h3>
+                <p>${skills}</p>
+                <div class="section-divider"></div>
+                <h3>Work Experience</h3>
+                <p>${experience}</p>
+                <div class="section-divider"></div>
+                <h3>Education</h3>
+                <p>${education}</p>
+            `;
         });
     </script>
 </body>
