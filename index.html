@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Resume Builder</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            margin: auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #0073b1;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input, textarea, select {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #0073b1;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #005a8c;
+        }
+        .resume {
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .section-divider {
+            border-top: 1px solid #ccc;
+            margin: 10px 0;
+        }
+        #downloadPDF {
+            display: block;
+            margin: 20px auto;
+            background: #28a745;
+        }
+        #downloadPDF:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ATS-Friendly Resume Builder</h1>
+        <form id="resumeForm">
+            <label for="template">Choose a Template:</label>
+            <select id="template">
+                <option value="template1">Template 1</option>
+                <option value="template2">Template 2</option>
+                <option value="template3">Template 3</option>
+            </select>
+
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" required>
+
+            <label for="linkedin">LinkedIn Profile:</label>
+            <input type="text" id="linkedin">
+
+            <label for="github">GitHub Profile:</label>
+            <input type="text" id="github">
+
+            <label for="birthplace">Place of Birth:</label>
+            <input type="text" id="birthplace">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" required>
+
+            <label for="summary">Professional Summary:</label>
+            <textarea id="summary" required></textarea>
+
+            <label for="skills">Skills (comma-separated):</label>
+            <input type="text" id="skills" required>
+
+            <label for="experience">Work Experience:</label>
+            <textarea id="experience" required></textarea>
+
+            <label for="education">Education:</label>
+            <textarea id="education" required></textarea>
+
+            <button type="submit">Generate Resume</button>
+        </form>
+
+        <div id="resumeOutput" class="resume"></div>
+        <button id="downloadPDF">Download as PDF</button>
+    </div>
+
+    <script>
+        document.getElementById('resumeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const template = document.getElementById('template').value;
+            const fullName = document.getElementById('fullName').value;
+            const linkedin = document.getElementById('linkedin').value;
+            const github = document.getElementById('github').value;
+            const birthplace = document.getElementById('birthplace').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const summary = document.getElementById('summary').value;
+            const skills = document.getElementById('skills').value;
+            const experience = document.getElementById('experience').value;
+            const education = document.getElementById('education').value;
+
+            let templateHTML = '';
+            if (template === 'template1') {
+                templateHTML = `
+                    <h2>${fullName}</h2>
+                    <p><strong>LinkedIn:</strong> ${linkedin}</p>
+                    <p><strong>GitHub:</strong> ${github}</p>
+                    <p><strong>Place of Birth:</strong> ${birthplace}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Phone:</strong> ${phone}</p>
+                    <div class="section-divider"></div>
+                    <h3>Professional Summary</h3>
+                    <p>${summary}</p>
+                    <div class="section-divider"></div>
+                    <h3>Skills</h3>
+                    <p>${skills}</p>
+                    <div class="section-divider"></div>
+                    <h3>Work Experience</h3>
+                    <p>${experience}</p>
+                    <div class="section-divider"></div>
+                    <h3>Education</h3>
+                    <p>${education}</p>
+                `;
+            }
+
+            document.getElementById('resumeOutput').innerHTML = templateHTML;
+        });
+
+        document.getElementById('downloadPDF').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.text(document.getElementById('resumeOutput').innerText, 10, 10);
+            doc.save('resume.pdf');
+        });
+    </script>
+</body>
+</html>
